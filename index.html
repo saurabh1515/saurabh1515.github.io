@@ -1,434 +1,563 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Font Awesome CDN for GitHub icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg">
-    <title>Saurabh's Portfolio</title>
-    <style>
-        :root {
-            --primary-color: #0366d6;
-            --secondary-color: #24292e;
-            --accent-color: #f9826c;
-            --text-color: #24292e;
-            --light-bg: #f6f8fa;
-            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saurabh Shukla - Software Engineer (Mario-Themed)</title>
+  <meta name="description" content="Saurabh Shukla — Senior Software Engineer. Mario-themed portfolio with projects, resume, and open-source work (distributed rate limiter, microservices, Spring Boot, Redis)." />
+  <meta name="theme-color" content="#e52521" />
+  <style>
+    /* ----------- RESET & THEME ----------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --mario-red: #e52521;
+      --mario-blue: #049cd8;
+      --mario-yellow: #fbd000;
+      --mario-green: #43b047;
+      --bg: #5c94fc;
+      --bg-light: #7fb6ff;
+      --text: #ffffff;
+      --text-dark: #2b2b2b;
+      --cloud-white: #ffffff;
+      --brick: #c84c0c;
+      --shadow-strong: 0 10px 0 rgba(0,0,0,.35);
+      --shadow-med: 0 6px 0 rgba(0,0,0,.3);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Comic Sans MS','Arial',sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* ----------- CLOUDS (CSS-Only) ----------- */
+    .clouds { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .cloud { position: absolute; background: var(--cloud-white); border-radius: 100px; opacity: .85; animation: float-cloud 60s linear infinite; filter: drop-shadow(0 8px 0 rgba(0,0,0,.08)); }
+    .cloud::before, .cloud::after { content: ''; position: absolute; background: var(--cloud-white); border-radius: 100px; }
+    .cloud1 { width: 100px; height: 40px; top: 10%; left: -150px; }
+    .cloud1::before { width: 50px; height: 50px; top: -25px; left: 10px; }
+    .cloud1::after  { width: 60px; height: 40px; top: -20px; right: 10px; }
+    .cloud2 { width: 120px; height: 50px; top: 30%; left: -200px; animation-delay: -20s; }
+    .cloud2::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+    .cloud2::after  { width: 70px; height: 50px; top: -25px; right: 15px; }
+    .cloud3 { width: 90px; height: 35px; top: 60%; left: -180px; animation-delay: -40s; }
+    .cloud3::before { width: 45px; height: 45px; top: -20px; left: 10px; }
+    .cloud3::after  { width: 55px; height: 35px; top: -15px; right: 10px; }
+    @keyframes float-cloud { from{ transform: translateX(0); } to{ transform: translateX(calc(100vw + 220px)); } }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: #ffffff;
-        }
+    /* ----------- LAYOUT ----------- */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+    header { position: fixed; top: 0; width: 100%; background: var(--mario-red); z-index: 1000; padding: 15px 0; box-shadow: 0 8px 0 #a81e1a, 0 10px 20px rgba(0, 0, 0, .3); border-bottom: 4px solid #a81e1a; }
+    nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .logo { font-size: 28px; font-weight: 900; color: var(--text); text-shadow: 3px 3px 0 #a81e1a; font-family: 'Impact', sans-serif; letter-spacing: 1.5px; white-space: nowrap; }
+    .nav-links { display: flex; gap: 10px; list-style: none; flex-wrap: wrap; }
+    .nav-links a { color: var(--text); text-decoration: none; transition: .25s; font-weight: 800; font-size: 1rem; text-shadow: 2px 2px 0 rgba(0,0,0,.3); padding: 8px 14px; border-radius: 8px; border: 2px solid rgba(255,255,255,.25); }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,.22); transform: translateY(-2px); }
 
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
+    .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; position: relative; overflow: hidden; }
+    .ground { position: absolute; bottom: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(180deg, var(--mario-green) 0%, #2d7a31 100%); border-top: 8px solid #2d7a31; }
+    .ground::before { content: ''; position: absolute; top: 20px; left: 0; width: 100%; height: 40px; background: repeating-linear-gradient(90deg, transparent 0 40px, rgba(0,0,0,.1) 40px 80px); }
+    .hero-content { flex: 1; z-index: 1; margin-bottom: 150px; }
+    .hero-title { font-size: clamp(2.4rem, 4.5vw, 4rem); font-weight: 900; margin-bottom: 16px; animation: bounce .9s ease; text-shadow: 4px 4px 0 rgba(0,0,0,.3); }
+    .mario-text { color: var(--mario-yellow); text-shadow: 4px 4px 0 var(--text-dark); }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    .hero-subtitle { font-size: clamp(1.2rem, 2.6vw, 2rem); color: var(--mario-yellow); margin-bottom: 18px; text-shadow: 3px 3px 0 rgba(0,0,0,.3); font-weight: 900; }
+    .hero-description { font-size: 1.05rem; color: var(--text); margin-bottom: 24px; max-width: 680px; text-shadow: 2px 2px 0 rgba(0,0,0,.2); background: rgba(0,0,0,.22); padding: 18px; border-radius: 12px; border: 3px solid rgba(255,255,255,.35); }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    .cta-buttons { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeInUp .8s ease .5s both; }
+    @keyframes fadeInUp { from{opacity:0; transform: translateY(30px)} to{opacity:1; transform: translateY(0)} }
+    .btn { padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 900; transition: .2s; display: inline-block; font-size: 1.05rem; text-transform: uppercase; position: relative; border: 4px solid; box-shadow: var(--shadow-med); }
+    .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.3); }
+    .btn-primary { background: var(--mario-yellow); color: var(--text-dark); border-color: #d4a700; }
+    .btn-primary:hover { background: #ffdb1a; transform: translateY(-2px); box-shadow: var(--shadow-strong); }
+    .btn-secondary { background: var(--mario-green); color: var(--text); border-color: #2d7a31; }
+    .btn-secondary:hover { background: #52c957; transform: translateY(-2px); box-shadow: var(--shadow-strong); }
+    .btn-outline { background: transparent; color: #000; border-color: #000; }
+    .btn-outline:hover { background: rgba(255,255,255,.2); transform: translateY(-2px); box-shadow: var(--shadow-strong); }
 
-        header {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
+    .social-links { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .social-links a { color: var(--text); font-size: 15px; transition: .25s; font-weight: 800; background: rgba(0,0,0,.25); padding: 10px 16px; border-radius: 8px; text-shadow: 2px 2px 0 rgba(0,0,0,.3); border: 2px solid rgba(255,255,255,.3); }
+    .social-links a:hover { background: var(--mario-yellow); color: var(--text-dark); transform: translateY(-3px); }
 
-        .profile-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+    section { padding: 80px 0; position: relative; }
+    .section-title { font-size: clamp(2rem,4.5vw,3rem); margin-bottom: 42px; text-align: center; font-weight: 900; text-shadow: 4px 4px 0 rgba(0,0,0,.3); }
+    .coin { display: inline-block; width: 40px; height: 40px; background: var(--mario-yellow); border-radius: 50%; border: 4px solid #d4a700; position: relative; animation: spin 2s linear infinite; vertical-align: middle; margin: 0 8px; }
+    @keyframes spin { 0%,100%{transform: rotateY(0)} 50%{transform: rotateY(180deg)} }
 
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            margin-bottom: 1rem;
-        }
+    .experience-grid, .projects-grid { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card { background: var(--text); padding: 24px; border-radius: 16px; border: 5px solid var(--text-dark); transition: .25s; position: relative; box-shadow: 0 8px 0 rgba(0,0,0,.3); opacity: 0; transform: translateY(20px) scale(.98); }
+    .card.show { opacity: 1; transform: translateY(0) scale(1); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 0 rgba(0,0,0,.3); }
+    .card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 14px; border-bottom: 3px solid var(--mario-red); padding-bottom: 12px; gap: 10px; }
+    .card-title { font-size: 1.5rem; color: var(--mario-red); margin-bottom: 4px; font-weight: 900; }
+    .card-company { color: var(--mario-blue); font-weight: 800; font-size: 1.05rem; }
+    .card-date { color: var(--text-dark); font-size: .95rem; font-weight: 800; background: var(--mario-yellow); padding: 6px 14px; border-radius: 999px; white-space: nowrap; }
+    .card-description { color: var(--text-dark); margin-top: 10px; }
+    .card-description li { margin-bottom: 9px; padding-left: 26px; position: relative; font-weight: 600; }
+    .card-description li::before { content: '⭐'; position: absolute; left: 0; font-size: 1.1rem; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 22px; }
+    .skill-category { background: var(--text); padding: 22px; border-radius: 16px; border: 5px solid var(--text-dark); position: relative; box-shadow: 0 8px 0 rgba(0,0,0,.3); opacity: 0; transform: translateY(20px) scale(.98); }
+    .skill-category.show { opacity: 1; transform: translateY(0) scale(1); }
+    .skill-category h3 { color: var(--mario-red); margin-bottom: 12px; font-size: 1.35rem; font-weight: 900; text-align: center; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-tag { background: var(--mario-blue); color: var(--text); padding: 9px 16px; border-radius: 999px; font-size: .95rem; border: 3px solid #0368a8; transition: .2s; font-weight: 800; box-shadow: 0 4px 0 #0368a8; }
+    .skill-tag:hover { background: var(--mario-yellow); color: var(--text-dark); border-color: #d4a700; transform: translateY(-3px); box-shadow: 0 6px 0 #d4a700; }
+    .skill-tag:active { transform: translateY(2px); box-shadow: 0 2px 0 #d4a700; }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
+    .education-timeline { max-width: 900px; margin: 0 auto; }
+    .timeline-item { background: var(--text); padding: 24px; border-radius: 16px; margin-bottom: 18px; border: 5px solid var(--text-dark); border-left: 10px solid var(--mario-green); box-shadow: 0 8px 0 rgba(0,0,0,.3); opacity: 0; transform: translateY(24px); }
+    .timeline-item.show { opacity: 1; transform: translateY(0); }
 
-        h2 {
-            font-size: 2rem;
-            margin: 2rem 0 1rem;
-            color: var(--secondary-color);
-        }
+    /* Pipes */
+    .pipe { width: 80px; height: 100px; background: var(--mario-green); border: 5px solid #2d7a31; border-radius: 10px 10px 0 0; position: absolute; bottom: 120px; box-shadow: inset 0 -20px 0 rgba(0,0,0,.2); }
+    .pipe::before { content: ''; position: absolute; top: -20px; left: -10px; width: 100px; height: 30px; background: var(--mario-green); border: 5px solid #2d7a31; border-radius: 10px 10px 0 0; }
+    .pipe1 { left: 12%; }
+    .pipe2 { right: 18%; }
 
-        h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 0.5rem;
-        }
+    footer { background: var(--brick); padding: 40px 0; text-align: center; border-top: 8px solid #9e3808; box-shadow: 0 -8px 0 #9e3808; position: relative; }
+    footer::before { content: ''; position: absolute; inset: 0; background:
+      repeating-linear-gradient(0deg, transparent 0 30px, rgba(0,0,0,.1) 30px 32px),
+      repeating-linear-gradient(90deg, transparent 0 40px, rgba(0,0,0,.1) 40px 42px);
+    }
+    .contact-info { display: flex; justify-content: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .contact-item { color: var(--text); text-decoration: none; transition: .25s; font-weight: 900; font-size: 1.05rem; text-shadow: 2px 2px 0 rgba(0,0,0,.3); background: rgba(0,0,0,.22); padding: 10px 18px; border-radius: 8px; border: 2px solid rgba(255,255,255,.3); }
+    .contact-item:hover { background: var(--mario-yellow); color: var(--text-dark); transform: translateY(-3px); }
 
-        p {
-            margin-bottom: 1rem;
-        }
+    /* ----------- RESUME (Mario-Themed) ----------- */
+    #resume { background: rgba(255,255,255,.1); }
+    .resume-wrap { background: #fcfbf4; color: #1e1e1e; border: 6px solid #1e1e1e; border-radius: 18px; padding: 26px; max-width: 1000px; margin: 0 auto; box-shadow: 0 12px 0 rgba(0,0,0,.25); position: relative; overflow: hidden; }
+    .resume-top { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; border-bottom: 4px dashed #e0d8b0; padding-bottom: 18px; }
+    .resume-name { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; color: var(--mario-red); text-shadow: 2px 2px 0 #00000020; }
+    .resume-role { font-weight: 800; color: var(--mario-blue); }
+    .resume-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .resume-section { padding: 18px 0; }
+    .resume-h3 { font-size: 1.15rem; font-weight: 900; color: #222; display: inline-flex; align-items: center; gap: 10px; border-bottom: 4px solid var(--mario-yellow); padding-bottom: 6px; }
+    .resume-list { margin-top: 10px; display: grid; gap: 10px; }
+    .resume-item { background: #fff; border: 3px solid #111; border-radius: 12px; padding: 12px 14px; box-shadow: 0 6px 0 rgba(0,0,0,.2); transform: translateY(18px); opacity: 0; }
+    .resume-item.show { transform: translateY(0); opacity: 1; transition: .35s ease; }
+    .resume-grid-2 { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 12px; }
+    .badge { display: inline-block; background: var(--mario-yellow); border: 3px solid #111; padding: 4px 10px; border-radius: 999px; font-weight: 900; }
 
-        .bio {
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            text-align: center;
-        }
+    /* Simple public-friendly decorative SVG coins (inline SVG below) */
+    .coin-strip { position: absolute; right: -30px; top: -30px; opacity: .2; transform: rotate(-12deg); display: grid; gap: 8px; }
 
-        .section {
-            margin-bottom: 3rem;
-        }
+    /* ----------- PRINT STYLES ----------- */
+    @media print {
+      body { background: #fff !important; }
+      header, .clouds, .ground, .pipe, .cta-buttons, .social-links, footer { display: none !important; }
+      .resume-wrap { border: none; box-shadow: none; }
+      a { color: #000 !important; text-decoration: none; }
+      section { padding: 18px 0; }
+    }
 
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .project-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-        }
-
-        .project-description {
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .technologies {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .tech-tag {
-            background-color: var(--light-bg);
-            color: var(--secondary-color);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .skill-category {
-            flex: 1;
-            min-width: 250px;
-            background-color: var(--light-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .skill-list {
-            list-style-type: none;
-        }
-
-        .skill-list li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .skill-list li:before {
-            content: "•";
-            color: var(--primary-color);
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1em;
-        }
-
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .contact-links a {
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .highlight {
-            color: var(--accent-color);
-        }
-
-        .navbar {
-            background-color: var(--secondary-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
-
-        .nav-logo {
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .nav-links a {
-            color: white;
-            position: relative;
-        }
-
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-
-        @media (max-width: 768px) {
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .skills-container {
-                flex-direction: column;
-            }
-
-            .nav-container {
-                flex-direction: column;
-                padding: 1rem;
-            }
-
-            .nav-links {
-                margin-top: 1rem;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .nav-links { gap: 6px; }
+      .pipe { display: none; }
+      .hero-description { font-size: 1rem; }
+    }
+  </style>
 </head>
-
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">Saurabh Shukla</div>
-            <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#skills">Skills</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </div>
+  <!-- Clouds -->
+  <div class="clouds" aria-hidden="true">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header>
+    <nav class="container">
+      <div class="logo" aria-label="Logo">🍄 SAURABH 🍄</div>
+      <ul class="nav-links">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#experience" class="nav-link">Levels</a></li>
+        <li><a href="#skills" class="nav-link">Power-Ups</a></li>
+        <li><a href="#projects" class="nav-link">Worlds</a></li>
+        <li><a href="#resume" class="nav-link">Resume</a></li>
+        <li><a href="#contact" class="nav-link">Warp Zone</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <header>
-        <div class="profile-container">
-            <img src="https://avatars.githubusercontent.com/u/22320129?v=4" alt="Saurabh's Profile"
-                class="profile-image">
-            <h1>Saurabh Shukla</h1>
-            <p>Software Engineer | Full Stack Developer | Tech Enthusiast</p>
-        </div>
-    </header>
-
+  <!-- Hero -->
+  <section id="home" class="hero" aria-label="Hero">
     <div class="container">
-        <section id="about" class="section">
-            <h2>About Me</h2>
-            <div class="bio">
-                <p>Hello! I'm a passionate software engineer with expertise in full stack development and cloud
-                    technologies.
-                    I enjoy building scalable web applications and exploring new technologies. My GitHub profile
-                    showcases my
-                    journey and projects in various domains including web development, cloud architecture, and system
-                    design.</p>
-                <p>Through my work, I aim to create impactful solutions and contribute to open source projects.</p>
-            </div>
-        </section>
-
-        <section id="projects" class="section">
-            <h2>Featured Projects</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="card-content">
-                        <h3 class="project-title">Microservices Architecture</h3>
-                        <p class="project-description">Implementation of microservices using Spring Boot, showcasing
-                            service discovery,
-                            API gateway, and distributed systems patterns.</p>
-                        <p><a href="https://github.com/saurabh1515/microservices" target="_blank">View Repository →</a>
-                        </p>
-                        <div class="technologies">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">Spring Boot</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Microservices</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="card-content">
-                        <h3 class="project-title">Cloud Native Apps</h3>
-                        <p class="project-description">Cloud-native applications built using AWS services, demonstrating
-                            serverless architecture and DevOps practices.</p>
-                        <p><a href="https://github.com/saurabh1515/cloud-native" target="_blank">View Repository →</a>
-                        </p>
-                        <div class="technologies">
-                            <span class="tech-tag">AWS</span>
-                            <span class="tech-tag">Serverless</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">DevOps</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="card-content">
-                        <h3 class="project-title">Full Stack Web Apps</h3>
-                        <p class="project-description">Modern web applications built using React and Node.js, featuring
-                            responsive design and real-time functionality.</p>
-                        <p><a href="https://github.com/saurabh1515/web-apps" target="_blank">View Repository →</a></p>
-                        <div class="technologies">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Express</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills" class="section">
-            <h2>Skills & Expertise</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    <ul class="skill-list">
-                        <li>Java</li>
-                        <li>JavaScript/TypeScript</li>
-                        <li>Python</li>
-                        <li>SQL</li>
-                        <li>Go</li>
-                    </ul>
-                </div>
-
-                <div class="skill-category">
-                    <h3>Backend Technologies</h3>
-                    <ul class="skill-list">
-                        <li>Spring Boot</li>
-                        <li>Node.js</li>
-                        <li>Express</li>
-                        <li>MongoDB</li>
-                        <li>PostgreSQL</li>
-                    </ul>
-                </div>
-
-                <div class="skill-category">
-                    <h3>Frontend Development</h3>
-                    <ul class="skill-list">
-                        <li>React</li>
-                        <li>Redux</li>
-                        <li>HTML5/CSS3</li>
-                        <li>Material UI</li>
-                        <li>Responsive Design</li>
-                    </ul>
-                </div>
-
-                <div class="skill-category">
-                    <h3>DevOps & Cloud</h3>
-                    <ul class="skill-list">
-                        <li>AWS</li>
-                        <li>Docker</li>
-                        <li>Kubernetes</li>
-                        <li>CI/CD</li>
-                        <li>Terraform</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer id="contact">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <p>Interested in collaborating or have a question? Feel free to reach out!</p>
-            <div class="contact-links">
-                <a href="https://github.com/saurabh1515" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/saurabh1515" target="_blank">LinkedIn</a>
-                <a href="mailto:saurabhshukla1515@gmail.com">Email</a>
-            </div>
-            <p class="copyright">© 2025 Saurabh Shukla. All rights reserved.</p>
+      <div class="hero-content">
+        <h1 class="hero-title">IT'S-A ME, <span class="mario-text">SAURABH!</span></h1>
+        <p class="hero-subtitle">🌟 Senior Software Engineer 🌟</p>
+        <p class="hero-description">
+          Like Mario jumping through worlds, I navigate complex systems with scalable microservices and event-driven architectures. 
+          Expert in Spring Boot, React, and cloud technologies. Let's-a-go build something amazing!
+        </p>
+        <div class="cta-buttons">
+          <a href="#contact" class="btn btn-primary">Start Game</a>
+          <a href="#experience" class="btn btn-secondary">View Levels</a>
+          <a href="#resume" class="btn btn-outline" id="printResume">Print Resume</a>
         </div>
-    </footer>
-</body>
+        <div class="social-links" aria-label="Social links">
+          <a href="https://github.com/saurabh1515" target="_blank" rel="noreferrer noopener">GitHub</a>
+          <a href="https://linkedin.com/in/saurabh1515" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+          <a href="https://leetcode.com/s1gma" target="_blank" rel="noreferrer noopener">LeetCode</a>
+        </div>
+      </div>
+    </div>
+    <div class="pipe pipe1" aria-hidden="true"></div>
+    <div class="pipe pipe2" aria-hidden="true"></div>
+    <div class="ground" aria-hidden="true"></div>
+  </section>
 
+  <!-- Experience -->
+  <section id="experience" style="background: rgba(255,255,255,.1);">
+    <div class="container">
+      <h2 class="section-title">Game <span class="coin"></span> Levels</h2>
+      <div class="experience-grid">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Senior Software Engineer</h3>
+              <p class="card-company">Rahi Platform Technologies</p>
+            </div>
+            <span class="card-date">Jan 2025 - Present</span>
+          </div>
+          <p style="color: var(--text-dark); margin-bottom: 12px; font-weight: 800;">📍 Pune, India</p>
+          <ul class="card-description">
+            <li>Building a multi-tenant SaaS for lending banks with configurable Loan Origination System</li>
+            <li>Developed event-driven service reducing manual intervention by 60%</li>
+            <li>Optimized SQL queries improving data retrieval speed by 30%</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Software Engineer</h3>
+              <p class="card-company">Capgemini India Limited</p>
+            </div>
+            <span class="card-date">Aug 2021 - Dec 2024</span>
+          </div>
+          <p style="color: var(--text-dark); margin-bottom: 12px; font-weight: 800;">📍 Pune, India</p>
+          <ul class="card-description">
+            <li>Led SWIFT Connector development for secure digital transactions between CBDC networks</li>
+            <li>Designed 3 microservices using Spring Boot streamlining cross-border payments</li>
+            <li>Deployed microservices using Docker on AWS cloud, increasing deployment efficiency</li>
+            <li>Built 10+ optimized UI components using ReactJS</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Software Developer Intern</h3>
+              <p class="card-company">ForeignAdmits</p>
+            </div>
+            <span class="card-date">Jun 2020 - Jul 2020</span>
+          </div>
+          <p style="color: var(--text-dark); margin-bottom: 12px; font-weight: 800;">📍 Mumbai, India</p>
+          <ul class="card-description">
+            <li>Built RESTful APIs and migrated data to Elasticsearch</li>
+            <li>Designed university pages and comparison tool for students</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title">Power-Ups <span class="coin"></span> Arsenal</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>🔥 Languages</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">JavaScript</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>⚡ Frameworks</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Spring Boot</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Bootstrap</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>💾 Databases</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>🔧 DevOps & Tools</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kafka</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Jenkins</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Maven</span>
+            <span class="skill-tag">SonarQube</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>🏗️ Architecture</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Microservices</span>
+            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">Event-driven</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" style="background: rgba(255,255,255,.1);">
+    <div class="container">
+      <h2 class="section-title">Featured <span class="coin"></span> Worlds</h2>
+      <div class="projects-grid">
+        <!-- Blog Application (standardized UI) -->
+        <div class="card" style="overflow:hidden;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Blog Application</h3>
+              <p class="card-company">Full-Stack Web Application</p>
+            </div>
+            <span class="card-date">Personal Project</span>
+          </div>
+          <ul class="card-description">
+            <li>Node.js + React app for user-managed blogs with auth & CRUD</li>
+            <li>RESTful API design with protected routes and validations</li>
+            <li>Reusable UI components and optimistic updates</li>
+          </ul>
+          <div class="skill-tags" style="margin-top: 16px;">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">REST API</span>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <a class="btn btn-outline" href="https://github.com/saurabh1515/mern-blog-app" target="_blank" rel="noreferrer noopener">Code</a>
+          </div>
+        </div>
+
+        <!-- Distributed Rate Limiter (standardized UI) -->
+        <div class="card" style="overflow:hidden;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Distributed Rate Limiter</h3>
+              <p class="card-company">Production-ready rate limiter</p>
+            </div>
+            <span class="card-date">Open-Source</span>
+          </div>
+          <ul class="card-description" style="color: var(--text-dark);">
+            <li>Multiple algorithms: fixed-window, sliding-window, token-bucket</li>
+            <li>Redis-backed counters & Lua scripts for atomicity</li>
+            <li>Deploy standalone or embed as a library in microservices</li>
+            <li>Auth (JWT/API key), metrics (Prometheus), tracing-ready</li>
+          </ul>
+          <div class="skill-tags" style="margin-top: 16px;">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Spring Boot</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Distributed Systems</span>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <a class="btn btn-outline" href="https://github.com/saurabh1515/distributed-rate-limiter" target="_blank" rel="noreferrer noopener"> Code </a>
+          </div>
+        </div>
+      </div>
+
+     
+    </div>
+  </section>
+
+  <!-- Education & Achievements -->
+  <section id="education">
+    <div class="container">
+      <h2 class="section-title">Achievements <span class="coin"></span> Hall</h2>
+      <div class="education-timeline">
+        <div class="timeline-item">
+          <h3 style="color: var(--mario-red); margin-bottom: 8px; font-weight: 900; font-size: 1.35rem;">🎓 Integrated Post Graduate in Information Technology</h3>
+          <p style="color: var(--mario-blue); font-weight: 800; font-size: 1.1rem;">ABV-IIITM Gwalior</p>
+          <p style="color: var(--text-dark); margin: 8px 0; font-weight: 800;">2016 - 2021 | CGPA: 7.31/10</p>
+        </div>
+        <div class="timeline-item">
+          <h3 style="color: var(--mario-red); margin-bottom: 8px; font-weight: 900; font-size: 1.35rem;">🏆 Achievements</h3>
+          <ul style="color: var(--text-dark); padding-left: 18px;">
+            <li>Certificate of appreciation for outstanding contributions in SWIFT account</li>
+            <li>1st Rank in AASF ICPC preparatory contest</li>
+            <li>Gold medal in table tennis at Institute Sports Festival</li>
+            <li>Event head of Techathlon at INFOTSAV'19</li>
+            <li>Problem setter for programming contests on HackerRank and HackerEarth</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mario-Themed Resume (Printable) -->
+  <section id="resume">
+    <div class="container">
+      <h2 class="section-title">📜 Mario-Themed <span class="coin"></span> Resume</h2>
+      <div class="resume-wrap" id="resumeRoot">
+        <div class="coin-strip" aria-hidden="true">
+          <!-- Simple inline SVG coins (public-friendly shapes) -->
+          <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="30" fill="#fbd000" stroke="#d4a700" stroke-width="8" />
+          </svg>
+          <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="30" fill="#fbd000" stroke="#d4a700" stroke-width="8" />
+          </svg>
+          <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="30" fill="#fbd000" stroke="#d4a700" stroke-width="8" />
+          </svg>
+        </div>
+
+        <div class="resume-top">
+          <div>
+            <div class="resume-name">Saurabh Shukla</div>
+            <div class="resume-role">Senior Software Engineer • Java | Spring Boot | React | AWS</div>
+          </div>
+          <div class="resume-actions">
+            <a class="btn btn-secondary" href="#contact">Contact</a>
+            <button class="btn btn-primary" onclick="window.print()">Print</button>
+          </div>
+        </div>
+
+        <div class="resume-section">
+          <div class="resume-h3">🎮 Experience</div>
+          <div class="resume-list">
+            <div class="resume-item">
+              <b>Senior Software Engineer — Rahi Platform Technologies</b> <span class="badge">Jan 2025 – Present</span><br/>
+              • Built multi-tenant SaaS (configurable LOS) • Event-driven services (↓ manual ops by 60%) • SQL tuning (↑ retrieval 30%).
+            </div>
+            <div class="resume-item">
+              <b>Software Engineer — Capgemini India Ltd.</b> <span class="badge">Aug 2021 – Dec 2024</span><br/>
+              • SWIFT Connector for CBDC • 3 Spring Boot microservices • Docker + AWS deployments • 10+ React components.
+            </div>
+            <div class="resume-item">
+              <b>Software Developer Intern — ForeignAdmits</b> <span class="badge">Jun 2020 – Jul 2020</span><br/>
+              • REST APIs • Data migration to Elasticsearch • University comparison tooling.
+            </div>
+          </div>
+        </div>
+
+        <div class="resume-section">
+          <div class="resume-h3">🧰 Skills</div>
+          <div class="resume-grid-2">
+            <div class="resume-item"><b>Languages:</b> Java, C++, JavaScript</div>
+            <div class="resume-item"><b>Frameworks:</b> Spring Boot, React, Bootstrap</div>
+            <div class="resume-item"><b>Databases:</b> MySQL, PostgreSQL, MongoDB</div>
+            <div class="resume-item"><b>DevOps & Tools:</b> Docker, Kafka, Redis, Jenkins, AWS, Maven, SonarQube</div>
+            <div class="resume-item"><b>Architecture:</b> Microservices, REST APIs, Event-driven</div>
+          </div>
+        </div>
+
+        <div class="resume-section">
+          <div class="resume-h3">🎓 Education & 🏅 Achievements</div>
+          <div class="resume-list">
+            <div class="resume-item">
+              <b>ABV-IIITM Gwalior</b> — Integrated PG in IT • 2016–2021 • CGPA: 7.31/10
+            </div>
+            <div class="resume-item">
+              Certificate of appreciation (SWIFT account); 1st in AASF ICPC prep; TT Gold @ Institute Fest; Techathlon'19 Event Head; Problem setter (HackerRank/HackerEarth).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Footer -->
+  <footer id="contact">
+    <div class="container">
+      <h2 style="margin-bottom: 24px; position: relative; z-index: 1;">Enter The <span class="coin"></span> Warp Zone</h2>
+      <div class="contact-info">
+        <a href="mailto:saurabhshukla1515@gmail.com" class="contact-item">📧 Email</a>
+        <a href="tel:+919198460021" class="contact-item">📱 Phone</a>
+        <a href="https://github.com/saurabh1515" target="_blank" class="contact-item" rel="noreferrer noopener">💻 GitHub</a>
+        <a href="https://linkedin.com/in/saurabh1515" target="_blank" class="contact-item" rel="noreferrer noopener">💼 LinkedIn</a>
+      </div>
+      <p style="color: var(--text); margin-top: 12px; font-weight: 900; text-shadow: 2px 2px 0 rgba(0,0,0,.3); position: relative; z-index: 1;">
+        © 2025 SAURABH SHUKLA. THANK YOU MARIO! BUT YOUR CODE IS IN ANOTHER CASTLE! 🏰
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll + offset for fixed header
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function scrollToHash(hash) {
+      const el = document.querySelector(hash);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const offsetTop = window.pageYOffset + rect.top - (header?.offsetHeight || 0) - 12; // 12px breathing room
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        e.preventDefault();
+        scrollToHash(href);
+        history.pushState(null, '', href);
+      });
+    });
+
+    // Scrollspy: highlight active nav link
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        const link = document.querySelector(`.nav-link[href="#${id}"]`);
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link?.classList.add('active');
+        }
+      });
+    }, { root: null, threshold: 0.4 });
+    sections.forEach(s => observer.observe(s));
+
+    // Reveal on scroll for cards/timeline/skills/resume items
+    const revealables = document.querySelectorAll('.card, .timeline-item, .skill-category, .resume-item');
+    const revObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+    }, { threshold: 0.15 });
+    revealables.forEach(el => revObs.observe(el));
+
+    // Print resume button from hero
+    document.getElementById('printResume')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToHash('#resume');
+      setTimeout(() => window.print(), 600);
+    });
+
+    // Gentle parallax for clouds
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      document.querySelectorAll('.cloud').forEach((c, i) => {
+        c.style.transform = `translateX(${(y * (0.1 + i * 0.03))}px)`;
+      });
+    });
+
+    // Keyboard shortcut: press "g" to jump to Resume (like a warp)
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'g') scrollToHash('#resume');
+    });
+  </script>
+</body>
 </html>
